@@ -1,114 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <title></title>
+  <title>ChemTools</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    
-    header, main{
+    header, main {
       padding: 10px;
     }
-    p{
-      padding: 10px 0px;
+
+    header {
+      border-bottom: 1px solid #E6E6E6;
     }
-    header{
-      border-bottom: 1px solid #E6E6E6
+
+    p {
+      padding: 10px 0;
     }
-    input{
-      all: unset;
-      height: 20px;
-      width: 30px;
-      border: 1px solid #777;
-      border-radius: 5px;
-      padding: 5px;
-      margin: 0px 2px;
+
+    .head {
+      padding: 30px 0 10px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
     }
-    .i-group{
+
+    .i-group {
       display: flex;
       align-items: center;
-      justify-items: start;
-      border-radius: 5px;
-      border: 1px solid #E3E4FF;
       background: #F7F7F7;
-      padding: 5px;
-      margin-bottom: 5px;
+      border: 1px solid #E3E4FF;
+      border-radius: 5px;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
-    
-    .head{
-      padding: 30px 0px 10px 0px;
+
+    .i-group label {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .i-group input {
+      all: unset;
+      width: 60px;
+      height: 20px;
+      padding: 5px;
+      border: 1px solid #777;
+      border-radius: 5px;
+      text-align: right;
+      margin-left: 5px;
+    }
+
+    .unit {
+      margin-left: 6px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .result {
+      background: #f2f5ff;
+      border-left: 4px solid #2d5be3;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 500;
     }
   </style>
 </head>
 
 <body>
   <header>
-    ChemTools
+    <h1 style="font-size: 1.5rem;">ChemTools</h1>
   </header>
-  
+
   <main>
-    <div class="i-group">
-      <label for="cap">Concentration of acid to be prepared:</label>
-      <input type="number" name="cap" id="cap" oninput="acidConc()">
-      <p>M</p>
-    </div>
-    
-    <div class="i-group">
-      <label for="vol">Volume of standard flask :</label>
-      <input type="number" name="vol" id="vol" oninput="acidConc()">
-      <p>mL</p>
-    </div>
-    
-    <h4 class="head">Concentration of acid :</h4>
-    <div class="i-group">
-      <label for="molar-weight">Molecular weight of acid :</label>
-      <input type="number" name="molar-weight" id="mw" oninput="acidConc()">
-      <p>g/mol</p>
-    </div>
-    
-    <div class="i-group">
-      <label for="pp">Percentage Purity :</label>
-      <input type="number" name="pp" id="pp" oninput="acidConc()">
-      <p>%</p>
-    </div>
-    
-    <div class="i-group">
-      <label for="sg">Specific gravity :</label>
-      <input type="number" name="sg" id="sg" oninput="acidConc()">
-    </div>
-    
-    <p class="result">Acid conentration = <span id="acid-result"></span> M</p>
-    
-    <p>To prepare <span id="cap-s"></span>M concentration of the acid in <span id="vol-s"></span>mL volumetric flask, take </p>
-    <p class="result"><span id="resul"></span>mL of the conc. acid.</p>
+    <section>
+      <div class="i-group">
+        <label for="cap">Target acid concentration:</label>
+        <input type="number" id="cap" oninput="acidConc()">
+        <span class="unit">M</span>
+      </div>
+
+      <div class="i-group">
+        <label for="vol">Volume of standard flask:</label>
+        <input type="number" id="vol" oninput="acidConc()">
+        <span class="unit">mL</span>
+      </div>
+    </section>
+
+    <h2 class="head">Stock Acid Properties</h2>
+
+    <section>
+      <div class="i-group">
+        <label for="mw">Molecular weight of acid:</label>
+        <input type="number" id="mw" oninput="acidConc()">
+        <span class="unit">g/mol</span>
+      </div>
+
+      <div class="i-group">
+        <label for="pp">Percentage Purity:</label>
+        <input type="number" id="pp" oninput="acidConc()">
+        <span class="unit">%</span>
+      </div>
+
+      <div class="i-group">
+        <label for="sg">Specific Gravity:</label>
+        <input type="number" id="sg" oninput="acidConc()">
+      </div>
+    </section>
+
+    <p class="result">Stock acid concentration = <span id="acid-result">–</span> M</p>
+
+    <p>
+      To prepare <span id="cap-s">–</span> M solution in a <span id="vol-s">–</span> mL flask, take:
+    </p>
+
+    <p class="result">
+      <span id="resul">–</span> mL of the concentrated acid.
+    </p>
   </main>
-  
+
   <script>
-  const cap = document.getElementById('cap');
-  const capS = document.getElementById('cap-s');
-  const vol = document.getElementById('vol');
-  const volS = document.getElementById('vol-s');
-  const result = document.getElementById('resul');
+    const cap = document.getElementById('cap');
+    const capS = document.getElementById('cap-s');
+    const vol = document.getElementById('vol');
+    const volS = document.getElementById('vol-s');
+    const result = document.getElementById('resul');
     const mw = document.getElementById('mw');
     const pp = document.getElementById('pp');
     const sg = document.getElementById('sg');
     const acidResult = document.getElementById('acid-result');
-    
-    function acidConc(){
-      const perc = pp.value/100;
-      const num = perc * sg.value * 1000;
-      const conc = num/ mw.value;
-      acidResult.innerHTML = conc.toFixed(3);
-      capS.innerHTML= cap.value;
-      volS.innerHTML= vol.value
-      const volR = ((cap.value * vol.value)/ conc).toFixed(0);
-      result.innerHTML= volR;
+
+    function acidConc() {
+      const mwVal = parseFloat(mw.value);
+      const ppVal = parseFloat(pp.value);
+      const sgVal = parseFloat(sg.value);
+      const capVal = parseFloat(cap.value);
+      const volVal = parseFloat(vol.value);
+
+      if (isNaN(mwVal) || isNaN(ppVal) || isNaN(sgVal) || mwVal === 0) return;
+
+      const purityDecimal = ppVal / 100;
+      const numerator = purityDecimal * sgVal * 1000;
+      const stockConc = numerator / mwVal;
+
+      acidResult.innerText = stockConc.toFixed(3);
+
+      if (!isNaN(capVal)) capS.innerText = capVal;
+      if (!isNaN(volVal)) volS.innerText = volVal;
+
+      if (!isNaN(stockConc) && stockConc > 0 && !isNaN(capVal) && !isNaN(volVal)) {
+        const volRequired = ((capVal * volVal) / stockConc).toFixed(1);
+        result.innerText = volRequired;
+      }
     }
-    mw.addEventListener('change', function(){
-      console.log(this.value);
-    })
   </script>
 </body>
 
