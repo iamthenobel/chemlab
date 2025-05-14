@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Calibration Curve Drawer</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Calibration Curve Drawer</h2>
+  
+    <input type="text" id="graphTitle" placeholder="Graph Title" />
+    <input type="text" id="xLabel" placeholder="X-axis Label (e.g., Concentration)" />
+    <input type="text" id="yLabel" placeholder="Y-axis Label (e.g., Absorbance)" />
+  
+    <label>Enter Data (x,y per line):</label>
+    <textarea id="dataInput" rows="5" placeholder="e.g., 0.5,0.12&#10;1.0,0.24"></textarea>
+  
+    <div class="file-upload-box">
+      <label for="csvFile" class="custom-file-label">
+        <span class="upload-icon">📄</span>
+        <span class="upload-text">Or Upload CSV (x, y)</span>
+      </label>
+      <input type="file" id="csvFile" accept=".csv" class="custom-file-input" />
+    </div>
+  
+    <button onclick="plotGraph()">Plot Graph</button>
+    <button onclick="downloadGraph()">Download Graph</button>
+  
+    <div class="result" id="equationOutput"></div>
+  
+    <label>Predict X from Y:</label>
+    <input type="number" step="any" id="unknownY" placeholder="Enter absorbance" />
+    <button onclick="predictX()">Calculate</button>
+    <div class="result" id="predictionOutput"></div>
+  
+    <canvas id="calibrationChart" height="400"></canvas>
+</div>
+
+  <script>
+    let chart, slope, intercept;
+
+    document.getElementById("csvFile").addEventListener("change", function (e) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const text = event.target.result;
+        document.getElementById("dataInput").value = text.trim();
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+
+    function parseData(input) {
+      return input.trim().split('\n').map(line => {
+        const [x, y] = line.split(',').map(Number);
+        return { x, y };
+      });
+    }
+
+    function linearRegression(data) {
+      const n = data.length;
+      let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+
+      data.forEach(pt => {
+        sumX += pt.x;
+        sumY += pt.y;
+        sumXY += pt.x * pt.y;
+        sumXX += pt.x * pt.x;
+      });
+
+      slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+      intercept = (sumY - slope * sumX) / n;
+
+      const meanY = sumY / n;
+      const ssTot = data.reduce((acc, pt) => acc + Math.pow(pt.y - meanY, 2), 0);
+      const ssRes = data.reduce((acc, pt) => acc + Math.pow(pt.y - (slope * pt.x + intercept), 2), 0);
+      const r2 = 1 - ssRes / ssTot;
+
+      return { slope, intercept, r2 };
+    }
+
+    function plotGraph() {
+      const raw = document.getElementById('dataInput').value;
+      const title = document.getElementById('graphTitle').value;
+      const xLabel = document.getElementById('xLabel').value;
+      const yLabel = document.getElementById('yLabel').value;
+    
+      const data = parseData(raw);
+      if (!data.length) return;
+    
+      const { slope: m, intercept: c, r2 } = linearRegression(data);
+      const regressionLine = data.map(pt => ({
+        x: pt.x,
+        y: m * pt.x + c
+      }));
+    
+      const ctx = document.getElementById('calibrationChart').getContext('2d');
+      if (chart) chart.destroy();
+    
+      chart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            {
+              label: 'Data Points',
+              data: data,
+              backgroundColor: '#3366cc',
+              pointRadius: 5
+            },
+            {
+              label: 'Trendline',
+              data: regressionLine,
+              type: 'line',
+              borderColor: '#ff5733',
+              fill: false,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: title
+            },
+            legend: {
+              display: true
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: xLabel
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: yLabel
+              }
+            }
+          }
+        }
+      });
+    
+      document.getElementById('equationOutput').innerText =
+        `Linear Equation: y = mx + c\n` +
+        `Slope (m): ${m.toFixed(4)}\n` +
+        `Intercept (c): ${c.toFixed(4)}\n` +
+        `R²: ${r2.toFixed(4)}`;
+    
+      document.getElementById('unknownY').placeholder = `Enter ${yLabel}`;
+    }
+    
+    function predictX() {
+      const y = parseFloat(document.getElementById('unknownY').value);
+      const xLabel = document.getElementById('xLabel').value || 'X';
+      const yLabel = document.getElementById('yLabel').value || 'Y';
+      if (!slope || isNaN(y)) return;
+    
+      const x = (y - intercept) / slope;
+      document.getElementById('predictionOutput').innerText =
+        `Estimated ${xLabel} from ${yLabel} = ${x.toFixed(4)}`;
+    }
+
+    function downloadGraph() {
+      const canvas = document.getElementById('calibrationChart');
+      canvas.toBlob(function (blob) {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'calibration-graph.png';
+        link.href = url;
+        link.click();
+      });
+    }
+
+    
+  </script>
+</body>
+</html>

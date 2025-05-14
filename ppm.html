@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>Advanced PPM Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    ChemTools
+  </header>
+<div class="container">
+  <h2>PPM Solution Calculator</h2>
+
+  <label>Compound Formula (e.g., Pb(NO3)2):</label>
+  <input type="text" id="compound" oninput="resetElementToggles()" placeholder="Enter compound" />
+
+  <label>Target PPM (mg/L):</label>
+  <input type="number" id="ppm" placeholder="e.g., 10" />
+
+  <label>Solution Volume (mL):</label>
+  <input type="number" id="volume" placeholder="e.g., 1000" />
+
+  <label>Purity of Compound (%):</label>
+  <input type="number" id="purity" value="100" placeholder="e.g., 99.9" />
+
+  <div id="elementToggles"></div>
+
+  <button onclick="calculatePPM()">Calculate Mass Required</button>
+
+  <div id="output"></div>
+  <div id="steps"></div>
+</div>
+  <script>
+    let elements = {};
+
+    fetch('elements.json')
+      .then(res => res.json())
+      .then(data => { elements = data; });
+
+    function parseFormula(formula) {
+      const stack = [];
+      let current = {};
+      const tokens = formula.match(/[A-Z][a-z]?|\d+|\(|\)/g);
+      if (!tokens) return {};
+
+      const merge = (target, source, multiplier = 1) => {
+        for (let k in source) {
+          target[k] = (target[k] || 0) + source[k] * multiplier;
+        }
+      };
+
+      for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        if (token === '(') {
+          stack.push(current);
+          current = {};
+        } else if (token === ')') {
+          const last = stack.pop();
+          let multiplier = 1;
+          if (/\d+/.test(tokens[i + 1])) {
+            multiplier = parseInt(tokens[i + 1], 10);
+            i++;
+          }
+          merge(last, current, multiplier);
+          current = last;
+        } else if (/[A-Z][a-z]?/.test(token)) {
+          let element = token;
+          let count = 1;
+          if (/\d+/.test(tokens[i + 1])) {
+            count = parseInt(tokens[i + 1], 10);
+            i++;
+          }
+          current[element] = (current[element] || 0) + count;
+        }
+      }
+
+      return current;
+    }
+
+    function resetElementToggles() {
+      document.getElementById('output').innerHTML = '';
+      document.getElementById('steps').innerHTML = '';
+      const compound = document.getElementById('compound').value.trim();
+      const parsed = parseFormula(compound);
+      const container = document.getElementById('elementToggles');
+      container.innerHTML = '';
+
+      for (let el in parsed) {
+        const box = `<label class="element-option">
+          <input type="checkbox" name="targetElement" value="${el}" checked />
+          ${el}
+        </label>`;
+        container.innerHTML += box;
+      }
+    }
+
+    function calculatePPM() {
+      const compound = document.getElementById('compound').value.trim();
+      const ppm = parseFloat(document.getElementById('ppm').value);
+      const volume = parseFloat(document.getElementById('volume').value);
+      const purity = parseFloat(document.getElementById('purity').value);
+      const parsed = parseFormula(compound);
+
+      let unknown = [], molarMass = 0;
+      for (let el in parsed) {
+        if (elements[el]) {
+          molarMass += elements[el] * parsed[el];
+        } else {
+          unknown.push(el);
+        }
+      }
+
+      if (unknown.length || !molarMass || !ppm || !volume) {
+        document.getElementById('output').innerHTML = `Error: Check inputs or unknown elements: ${unknown.join(', ')}`;
+        document.getElementById('steps').innerHTML = '';
+        return;
+      }
+
+      // Determine target element(s)
+      const selectedTargets = Array.from(document.querySelectorAll('input[name="targetElement"]:checked')).map(el => el.value);
+      if (selectedTargets.length === 0) {
+        document.getElementById('output').innerHTML = `Select at least one target element.`;
+        document.getElementById('steps').innerHTML = '';
+        return;
+      }
+
+      let totalMass = 0;
+      let steps = `<b>Step-by-step Calculation:</b><br><br>`;
+      steps += `1. Parsed compound: <code>${compound}</code><br>`;
+      steps += `2. Molar mass breakdown:<br><ul>`;
+      for (let el in parsed) {
+        steps += `<li>${el}: ${parsed[el]} × ${elements[el]} = ${(parsed[el] * elements[el]).toFixed(3)} g/mol</li>`;
+      }
+      steps += `</ul>`;
+      steps += `Total molar mass = <b>${molarMass.toFixed(3)} g/mol</b><br><br>`;
+
+      let targetMassFraction = 0;
+      selectedTargets.forEach(el => {
+        targetMassFraction += (elements[el] * parsed[el]) / molarMass;
+      });
+
+      steps += `3. Target mass fraction in compound = ${(targetMassFraction * 100).toFixed(2)}%<br>`;
+      const mgTarget = ppm * (volume / 1000);
+      steps += `4. Total target mass needed = ${ppm} mg/L × ${volume / 1000} L = <b>${mgTarget.toFixed(3)} mg</b><br>`;
+      const mgCompound = mgTarget / targetMassFraction;
+      const adjusted = mgCompound / (purity / 100);
+      steps += `5. Required compound mass = ${mgTarget.toFixed(3)} mg / ${(targetMassFraction).toFixed(3)} = ${mgCompound.toFixed(3)} mg<br>`;
+      steps += `6. Adjusting for purity (${purity}%) → Final mass = <b>${adjusted.toFixed(4)} mg</b> or <b>${(adjusted / 1000).toFixed(6)} g</b><br>`;
+
+      document.getElementById('output').innerHTML = `
+        <b>Final Result:</b><br>
+        Weigh <b>${adjusted.toFixed(4)} mg</b> (${(adjusted / 1000).toFixed(6)} g) of <b>${compound}</b><br>
+        to prepare <b>${volume} mL</b> of <b>${ppm} ppm</b> solution (targeting ${selectedTargets.join(', ')})
+      `;
+      document.getElementById('steps').innerHTML = steps;
+    }
+  </script>
+
+</body>
+</html>

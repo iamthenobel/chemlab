@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Molecular Mass Calculator</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: #222; font-size: 16px;
+    }
+    header, main {
+      padding: 15px;
+    }
+    p {
+      padding: 10px 0px;
+    }
+    header {
+      border-bottom: 1px solid #E6E6E6;
+    }
+    input {
+      all: unset;
+      height: 30px;
+      width: 62%;
+      border: 1px solid #777;
+      border-radius: 5px;
+      padding: 5px;
+      margin: 0px 2px;
+    }
+    button {
+      all: unset;
+      background: #4F52FF;
+      color: #fff;
+      padding: 7px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 5px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #383AFF;
+    }
+    #result, #steps {
+      padding: 10px 5px;
+      border-radius: 5px;
+      border: 1px solid #4F52FF;
+      margin-top: 15px;
+      background: #E0E0FF;
+    }
+    #steps {
+      background: #F3F3FF;
+      border-color: #888;
+      font-size: 15px;
+      display: none;
+    }
+    .view{
+      margin-top: 2px;
+      padding:5px 10px;
+      font-size: 12px;
+      float: right;
+      background: #BBC1FF;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h3>Molecular Mass Calculator</h3>
+  </header>
+  <main>
+    <input type="text" id="formulaInput" placeholder="Enter formula (e.g., K2Cr2O7)" />
+    <button onclick="calculateMass()">Calculate</button>
+    <div id="result"></div>
+    <div id="steps"></div>
+    <button onclick="toggleSteps()" class="view">View Steps</button>
+  </main>
+
+  <script>
+    let elements = {};
+
+    fetch('elements.json')
+      .then(res => res.json())
+      .then(data => { elements = data; });
+
+    function parseFormula(formula) {
+      const stack = [];
+      let current = {};
+      const tokens = formula.match(/[A-Z][a-z]?|\d+|\(|\)/g);
+      if (!tokens) return {};
+
+      const merge = (target, source, multiplier = 1) => {
+        for (let k in source) {
+          target[k] = (target[k] || 0) + source[k] * multiplier;
+        }
+      };
+
+      for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        if (token === '(') {
+          stack.push(current);
+          current = {};
+        } else if (token === ')') {
+          const last = stack.pop();
+          let multiplier = 1;
+          if (/\d+/.test(tokens[i + 1])) {
+            multiplier = parseInt(tokens[i + 1], 10);
+            i++;
+          }
+          merge(last, current, multiplier);
+          current = last;
+        } else if (/[A-Z][a-z]?/.test(token)) {
+          let element = token;
+          let count = 1;
+          if (/\d+/.test(tokens[i + 1])) {
+            count = parseInt(tokens[i + 1], 10);
+            i++;
+          }
+          current[element] = (current[element] || 0) + count;
+        }
+      }
+
+      return current;
+    }
+
+    let lastSteps = '';
+
+    function calculateMass() {
+      const input = document.getElementById('formulaInput').value.trim();
+      const parsed = parseFormula(input);
+      let total = 0;
+      let unknown = [];
+      let steps = [];
+
+      for (let el in parsed) {
+        if (elements[el]) {
+          const subtotal = elements[el] * parsed[el];
+          steps.push(`${el} (${elements[el]} × ${parsed[el]}) = ${subtotal.toFixed(3)}`);
+          total += subtotal;
+        } else {
+          unknown.push(el);
+        }
+      }
+
+      const result = document.getElementById('result');
+      const stepsDiv = document.getElementById('steps');
+
+      if (unknown.length > 0) {
+        result.textContent = `Unknown elements: ${unknown.join(', ')}`;
+        stepsDiv.style.display = 'none';
+      } else {
+        result.textContent = `Molecular mass of ${input} = ${total.toFixed(3)} g/mol`;
+        lastSteps = steps.join('<br>');
+        stepsDiv.innerHTML = lastSteps;
+        stepsDiv.style.display = 'none';
+      }
+    }
+
+    function toggleSteps() {
+      const stepsDiv = document.getElementById('steps');
+      stepsDiv.style.display = stepsDiv.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

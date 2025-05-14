@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title></title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    
+    header, main{
+      padding: 10px;
+    }
+    p{
+      padding: 10px 0px;
+    }
+    header{
+      border-bottom: 1px solid #E6E6E6
+    }
+    input{
+      all: unset;
+      height: 20px;
+      width: 30px;
+      border: 1px solid #777;
+      border-radius: 5px;
+      padding: 5px;
+      margin: 0px 2px;
+    }
+    .i-group{
+      display: flex;
+      align-items: center;
+      justify-items: start;
+      border-radius: 5px;
+      border: 1px solid #E3E4FF;
+      background: #F7F7F7;
+      padding: 5px;
+      margin-bottom: 5px;
+    }
+    
+    .head{
+      padding: 30px 0px 10px 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    ChemTools
+  </header>
+  
+  <main>
+    <div class="i-group">
+      <label for="cap">Concentration of acid to be prepared:</label>
+      <input type="number" name="cap" id="cap" oninput="acidConc()">
+      <p>M</p>
+    </div>
+    
+    <div class="i-group">
+      <label for="vol">Volume of standard flask :</label>
+      <input type="number" name="vol" id="vol" oninput="acidConc()">
+      <p>mL</p>
+    </div>
+    
+    <h4 class="head">Concentration of acid :</h4>
+    <div class="i-group">
+      <label for="molar-weight">Molecular weight of acid :</label>
+      <input type="number" name="molar-weight" id="mw" oninput="acidConc()">
+      <p>g/mol</p>
+    </div>
+    
+    <div class="i-group">
+      <label for="pp">Percentage Purity :</label>
+      <input type="number" name="pp" id="pp" oninput="acidConc()">
+      <p>%</p>
+    </div>
+    
+    <div class="i-group">
+      <label for="sg">Specific gravity :</label>
+      <input type="number" name="sg" id="sg" oninput="acidConc()">
+    </div>
+    
+    <p class="result">Acid conentration = <span id="acid-result"></span> M</p>
+    
+    <p>To prepare <span id="cap-s"></span>M concentration of the acid in <span id="vol-s"></span>mL volumetric flask, take </p>
+    <p class="result"><span id="resul"></span>mL of the conc. acid.</p>
+  </main>
+  
+  <script>
+  const cap = document.getElementById('cap');
+  const capS = document.getElementById('cap-s');
+  const vol = document.getElementById('vol');
+  const volS = document.getElementById('vol-s');
+  const result = document.getElementById('resul');
+    const mw = document.getElementById('mw');
+    const pp = document.getElementById('pp');
+    const sg = document.getElementById('sg');
+    const acidResult = document.getElementById('acid-result');
+    
+    function acidConc(){
+      const perc = pp.value/100;
+      const num = perc * sg.value * 1000;
+      const conc = num/ mw.value;
+      acidResult.innerHTML = conc.toFixed(3);
+      capS.innerHTML= cap.value;
+      volS.innerHTML= vol.value
+      const volR = ((cap.value * vol.value)/ conc).toFixed(0);
+      result.innerHTML= volR;
+    }
+    mw.addEventListener('change', function(){
+      console.log(this.value);
+    })
+  </script>
+</body>
+
+</html>

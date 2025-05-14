@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 0px;
+}
+header {
+  background-color: #2d5be3;
+  color: white;
+  padding: 16px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+h2 {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E6E6E6;
+  padding: 10px 0px;
+  font-size: 18px;
+  color: #2d5be3;
+}
+
+input,
+button,
+textarea {
+  margin: 6px 0;
+  padding: 8px;
+  max-width: 400px;
+}
+
+textarea {
+  display: block
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+label,
+select,
+input,
+button {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+select {
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  max-width: 300px;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath fill='%23333' d='M6 6L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 6px;
+  cursor: pointer;
+}
+
+button {
+  background: #4a5cff;
+  color: #fff;
+  padding: 12px;
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2d3ae6;
+}
+
+canvas {
+  margin-top: 20px;
+  max-width: 100%;
+}
+
+.result,
+#result {
+  margin-top: 20px;
+  padding: 10px;
+  background: #e0e0ff;
+  border-left: 5px solid #2196f3;
+  border-radius: 6px;
+}
+
+#steps {
+  margin-top: 20px;
+  background: #f0f9f0;
+  padding: 15px;
+  border-left: 4px solid #4CAF50;
+  border-radius: 6px
+}
+
+#elementToggles {
+  margin: 10px 0;
+}
+
+.element-option {
+  margin-right: 15px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.file-upload-box {
+  position: relative;
+  max-width: 340px;
+  margin: 20px 0;
+}
+
+.custom-file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eef1fb;
+  border: 2px dashed #4f52ff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.custom-file-label:hover {
+  background-color: #dfe5ff;
+  border-color: #2d31e6;
+}
+
+.upload-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.upload-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.custom-file-input {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+    .result-item {
+      margin-bottom: 15px;
+    }
+    .result-item span {
+      font-weight: 600;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 15px;
+      }
+    }

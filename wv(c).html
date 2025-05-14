@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>Solution Preparation Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>Prepare w/v% or v/v% Solution</h2>
+
+  <label>Solution Type:</label>
+  <select id="typeSelect" onchange="toggleFields()">
+    <option value="wv">w/v%</option>
+    <option value="vv">v/v%</option>
+  </select>
+
+  <div id="wvFields">
+    <label>Compound Name:</label>
+    <input type="text" id="wv_name" placeholder="e.g. NaCl" />
+
+    <label>Desired Concentration (w/v%):</label>
+    <input type="number" id="wv_percent" placeholder="e.g. 5" />
+
+    <label>Final Volume (mL):</label>
+    <input type="number" id="wv_volume" placeholder="e.g. 100" />
+  </div>
+
+  <div id="vvFields" class="hidden">
+    <label>Liquid Solute Name:</label>
+    <input type="text" id="vv_name" placeholder="e.g. Ethanol" />
+
+    <label>Desired Concentration (v/v%):</label>
+    <input type="number" id="vv_percent" placeholder="e.g. 70" />
+
+    <label>Final Volume (mL):</label>
+    <input type="number" id="vv_volume" placeholder="e.g. 100" />
+  </div>
+
+  <button onclick="calculate()">Calculate</button>
+
+  <div id="result"></div>
+  <div id="steps"></div>
+</div>
+  <script>
+    function toggleFields() {
+      const type = document.getElementById('typeSelect').value;
+      document.getElementById('wvFields').classList.toggle('hidden', type !== 'wv');
+      document.getElementById('vvFields').classList.toggle('hidden', type !== 'vv');
+      document.getElementById('result').innerHTML = "";
+      document.getElementById('steps').innerHTML = "";
+    }
+
+    function calculate() {
+      const type = document.getElementById('typeSelect').value;
+      let name, percent, volume, amount;
+
+      if (type === 'wv') {
+        name = document.getElementById('wv_name').value.trim();
+        percent = parseFloat(document.getElementById('wv_percent').value);
+        volume = parseFloat(document.getElementById('wv_volume').value);
+
+        if (!name || isNaN(percent) || isNaN(volume) || percent <= 0 || volume <= 0) {
+          document.getElementById('result').innerHTML = "Please enter valid w/v inputs.";
+          document.getElementById('steps').innerHTML = "";
+          return;
+        }
+
+        amount = (percent / 100) * volume;
+
+        document.getElementById('result').innerHTML =
+          `<b>Weigh ${amount.toFixed(2)} g of ${name}</b>`;
+
+        document.getElementById('steps').innerHTML = `
+          <b>Step-by-step:</b><br>
+          1. Use formula: weight = (w/v% × total volume) / 100<br>
+          2. weight = (${percent}% × ${volume} mL) / 100<br>
+          3. weight = ${amount.toFixed(2)} g of ${name}<br><br>
+          <i>Dissolve in water and make up to ${volume} mL in volumetric flask.</i>
+        `;
+      } else {
+        name = document.getElementById('vv_name').value.trim();
+        percent = parseFloat(document.getElementById('vv_percent').value);
+        volume = parseFloat(document.getElementById('vv_volume').value);
+
+        if (!name || isNaN(percent) || isNaN(volume) || percent <= 0 || volume <= 0) {
+          document.getElementById('result').innerHTML = "Please enter valid v/v inputs.";
+          document.getElementById('steps').innerHTML = "";
+          return;
+        }
+
+        amount = (percent / 100) * volume;
+
+        document.getElementById('result').innerHTML =
+          `<b>Measure ${amount.toFixed(2)} mL of ${name}</b>`;
+
+        document.getElementById('steps').innerHTML = `
+          <b>Step-by-step:</b><br>
+          1. Use formula: volume = (v/v% × total volume) / 100<br>
+          2. volume = (${percent}% × ${volume} mL) / 100<br>
+          3. volume = ${amount.toFixed(2)} mL of ${name}<br><br>
+          <i>Make up to ${volume} mL with solvent in a volumetric flask.</i>
+        `;
+      }
+    }
+  </script>
+
+</body>
+</html>

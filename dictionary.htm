@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Chemistry Term Lookup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; padding: 20px;
+      background: #f8f9fb; color: #333;
+    }
+    h2 { margin-bottom: 10px; }
+    input {
+      width: 100%; padding: 10px;
+      font-size: 16px; margin-bottom: 20px;
+      border: 1px solid #ccc; border-radius: 4px;
+    }
+    .definition {
+      padding: 15px; background: #fff;
+      border-left: 4px solid #007bff;
+      margin-bottom: 10px; border-radius: 4px;
+    }
+    .term { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Search Chemistry Terms</h2>
+  <input type="text" id="searchInput" placeholder="Enter a term..." oninput="searchTerm()"/>
+  <div id="results"></div>
+
+  <script>
+    let definitions = {};
+
+    fetch('definitions.json')
+      .then(res => res.json())
+      .then(data => definitions = data);
+
+    function searchTerm() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '';
+
+      if (!input) return;
+
+      for (let term in definitions) {
+        const def = definitions[term];
+        if (term.includes(input) || def.keywords.some(k => k.includes(input))) {
+          resultsDiv.innerHTML += `
+            <div class="definition">
+              <div class="term">${term.charAt(0).toUpperCase() + term.slice(1)}</div>
+              <div>${def.definition}</div>
+            </div>`;
+        }
+      }
+
+      if (resultsDiv.innerHTML === '') {
+        resultsDiv.innerHTML = '<div>No matching terms found.</div>';
+      }
+    }
+  </script>
+</body>
+</html>

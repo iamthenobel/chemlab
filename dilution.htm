@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Dilution Calculator - Volume to Take</title>
+  <link rel="stylesheet" href="style.css">
+  <style> 
+    .input-group {
+      margin-bottom: 15px;
+    }
+    
+    .result {
+      background: #eef2ff;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 6px;
+      line-height: 1.6;
+    }
+    .result strong {
+      color: #4a5cff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    ChemTools
+  </header>
+  <div class="container">
+    <h2>Dilution Calculator</h2>
+    
+    <div class="input-group">
+      <label>Stock Concentration</label>
+      <input type="number" id="stockConcentration" placeholder="e.g. 1.0" />
+    </div>
+
+    <div class="input-group">
+      <label>Desired Final Concentration</label>
+      <input type="number" id="desiredConcentration" placeholder="e.g. 0.2" />
+    </div>
+
+    <div class="input-group">
+      <label>Final Volume to Prepare (mL)</label>
+      <input type="number" id="finalVolume" placeholder="e.g. 100" />
+    </div>
+
+    <div class="input-group">
+      <label>Unit</label>
+      <select id="unit">
+        <option value="M">Molarity (M)</option>
+        <option value="ppm">ppm</option>
+        <option value="ppb">ppb</option>
+        <option value="g/L">g/L</option>
+      </select>
+    </div>
+
+    <button onclick="calculateDilution()">Calculate Volume to Take</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function calculateDilution() {
+      const C1 = parseFloat(document.getElementById('stockConcentration').value);
+      const C2 = parseFloat(document.getElementById('desiredConcentration').value);
+      const V2 = parseFloat(document.getElementById('finalVolume').value);
+      const unit = document.getElementById('unit').value;
+
+      if (isNaN(C1) || isNaN(C2) || isNaN(V2) || C1 === 0) {
+        document.getElementById('result').innerHTML = 'Please enter valid values for all fields.';
+        return;
+      }
+
+      const V1 = (C2 * V2) / C1;
+
+      const resultText = `
+        <strong>Step-by-Step Instructions:</strong><br/>
+        1. You are preparing <strong>${V2} mL</strong> of a <strong>${C2} ${unit}</strong> solution from a <strong>${C1} ${unit}</strong> stock.<br/>
+        2. Use the formula: <em>V₁ = (C₂ × V₂) ÷ C₁</em><br/>
+        3. Substituting values: V₁ = (${C2} × ${V2}) ÷ ${C1} = <strong>${V1.toFixed(2)} mL</strong><br/>
+        4. <strong>Measure ${V1.toFixed(2)} mL</strong> of the stock solution using a pipette or graduated cylinder.<br/>
+        5. Transfer it into a <strong>${V2} mL</strong> volumetric flask or container.<br/>
+        6. Add solvent (usually water) to the mark to make up the total volume to <strong>${V2} mL</strong>.<br/>
+        <br/>
+        You now have a <strong>${C2} ${unit}</strong> solution.
+      `;
+
+      document.getElementById('result').innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>

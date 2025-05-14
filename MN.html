@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>Molarity Solution Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>Molarity Solution Calculator</h2>
+
+  <label>Compound Formula:</label>
+  <input type="text" id="formula" placeholder="e.g. K2Cr2O7" />
+
+  <label>Desired Molarity (mol/L):</label>
+  <input type="number" id="molarity" placeholder="e.g. 0.1" />
+
+  <label>Volume to Prepare (mL):</label>
+  <input type="number" id="volume" placeholder="e.g. 250" />
+
+  <button onclick="calculateMolarityMass()">Calculate Mass to Weigh</button>
+
+  <div id="result"></div>
+  <div id="steps"></div>
+</div>
+  <script>
+    let elements = {};
+
+    fetch('elements.json')
+      .then(res => res.json())
+      .then(data => { elements = data; });
+
+    function parseFormula(formula) {
+      const stack = [];
+      let current = {};
+      const tokens = formula.match(/[A-Z][a-z]?|\d+|\(|\)/g);
+      if (!tokens) return {};
+
+      const merge = (target, source, multiplier = 1) => {
+        for (let k in source) {
+          target[k] = (target[k] || 0) + source[k] * multiplier;
+        }
+      };
+
+      for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        if (token === '(') {
+          stack.push(current);
+          current = {};
+        } else if (token === ')') {
+          const last = stack.pop();
+          let multiplier = 1;
+          if (/\d+/.test(tokens[i + 1])) {
+            multiplier = parseInt(tokens[i + 1], 10);
+            i++;
+          }
+          merge(last, current, multiplier);
+          current = last;
+        } else if (/[A-Z][a-z]?/.test(token)) {
+          let element = token;
+          let count = 1;
+          if (/\d+/.test(tokens[i + 1])) {
+            count = parseInt(tokens[i + 1], 10);
+            i++;
+          }
+          current[element] = (current[element] || 0) + count;
+        }
+      }
+
+      return current;
+    }
+
+    function calculateMolarityMass() {
+      const formula = document.getElementById('formula').value.trim();
+      const molarity = parseFloat(document.getElementById('molarity').value);
+      const volume_mL = parseFloat(document.getElementById('volume').value);
+
+      if (!formula || isNaN(molarity) || isNaN(volume_mL) || molarity <= 0 || volume_mL <= 0) {
+        document.getElementById('result').innerHTML = "Please enter valid inputs.";
+        document.getElementById('steps').innerHTML = "";
+        return;
+      }
+
+      const parsed = parseFormula(formula);
+      let molMass = 0;
+      let unknown = [];
+
+      for (let el in parsed) {
+        if (elements[el]) {
+          molMass += elements[el] * parsed[el];
+        } else {
+          unknown.push(el);
+        }
+      }
+
+      if (unknown.length > 0) {
+        document.getElementById('result').innerHTML = `Unknown element(s): ${unknown.join(', ')}`;
+        document.getElementById('steps').innerHTML = "";
+        return;
+      }
+
+      const volume_L = volume_mL / 1000;
+      const mass = molarity * molMass * volume_L;
+
+      document.getElementById('result').innerHTML =
+        `<b>Weigh ${mass.toFixed(3)} g of ${formula}</b>`;
+
+      document.getElementById('steps').innerHTML = `
+        <b>Step-by-step:</b><br>
+        1. Molecular Mass of ${formula} = ${molMass.toFixed(3)} g/mol<br>
+        2. Volume = ${volume_mL} mL = ${volume_L} L<br>
+        3. Use formula: mass = Molarity × Molecular Weight × Volume<br>
+        4. mass = ${molarity} × ${molMass.toFixed(3)} × ${volume_L.toFixed(3)}<br>
+        5. mass = ${mass.toFixed(3)} g<br><br>
+        <i>Dissolve in water and make up to ${volume_mL} mL in a volumetric flask.</i>
+      `;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>v/v% Concentration Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>v/v% Concentration Calculator</h2>
+
+  <label>Solvent Name:</label>
+  <input type="text" id="solvent" placeholder="e.g. Ethanol" />
+
+  <label>Volume of Solute (mL):</label>
+  <input type="number" id="soluteVolume" placeholder="e.g. 25" />
+
+  <label>Final Volume of Solution (mL):</label>
+  <input type="number" id="totalVolume" placeholder="e.g. 100" />
+
+  <button onclick="calculateVV()">Calculate v/v%</button>
+
+  <div id="result"></div>
+  <div id="steps"></div>
+</div>
+  <script>
+    function calculateVV() {
+      const solvent = document.getElementById('solvent').value.trim();
+      const soluteVolume = parseFloat(document.getElementById('soluteVolume').value);
+      const totalVolume = parseFloat(document.getElementById('totalVolume').value);
+
+      if (!solvent || isNaN(soluteVolume) || isNaN(totalVolume) || soluteVolume <= 0 || totalVolume <= 0) {
+        document.getElementById('result').innerHTML = "Please enter valid inputs.";
+        document.getElementById('steps').innerHTML = "";
+        return;
+      }
+
+      const concentration = (soluteVolume / totalVolume) * 100;
+
+      document.getElementById('result').innerHTML =
+        `<b>${solvent} solution concentration = ${concentration.toFixed(2)}% v/v</b>`;
+
+      document.getElementById('steps').innerHTML = `
+        <b>Step-by-step:</b><br>
+        1. Use formula: v/v% = (volume of solute / total volume) × 100<br>
+        2. v/v% = (${soluteVolume} mL / ${totalVolume} mL) × 100<br>
+        3. v/v% = ${concentration.toFixed(2)}%<br><br>
+        <i>This is the final concentration of ${solvent} in solution.</i>
+      `;
+    }
+  </script>
+
+</body>
+</html>

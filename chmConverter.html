@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>Chemistry Unit Converter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>Chemistry Unit Converter</h2>
+
+  <label for="chem-category">Category:</label>
+  <select id="chem-category" onchange="populateChemUnits()">
+    <option value="">-- Select Category --</option>
+    <option value="concentration">Concentration</option>
+    <option value="density">Density</option>
+    <option value="mass-volume">Mass/Volume</option>
+  </select>
+
+  <label for="from-chem">From Unit:</label>
+  <select id="from-chem"></select>
+
+  <label for="to-chem">To Unit:</label>
+  <select id="to-chem"></select>
+
+  <label for="chem-value">Value:</label>
+  <input type="number" id="chem-value" placeholder="Enter value" />
+
+  <button onclick="convertChem()">Convert</button>
+
+  <div id="result"></div>
+</div>
+  <script>
+    const chemUnits = {
+      concentration: {
+        'ppm': 1,
+        'ppb': 0.001,
+        'g/L': 1000,
+        'mg/L': 1,
+        'mol/L': 1, // assume molar basis if MM provided
+        'mmol/L': 0.001
+      },
+      density: {
+        'g/cm³': 1,
+        'kg/m³': 0.001,
+        'g/mL': 1,
+        'mg/mL': 0.001
+      },
+      'mass-volume': {
+        'g': 1,
+        'mg': 0.001,
+        'kg': 1000,
+        'µg': 0.000001,
+        'L': 1,
+        'mL': 0.001,
+        'µL': 0.000001
+      }
+    };
+
+    function populateChemUnits() {
+      const category = document.getElementById('chem-category').value;
+      const from = document.getElementById('from-chem');
+      const to = document.getElementById('to-chem');
+      from.innerHTML = '';
+      to.innerHTML = '';
+
+      if (!chemUnits[category]) return;
+
+      Object.keys(chemUnits[category]).forEach(unit => {
+        const opt1 = document.createElement('option');
+        opt1.value = unit;
+        opt1.text = unit;
+        from.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = unit;
+        opt2.text = unit;
+        to.appendChild(opt2);
+      });
+    }
+
+    function convertChem() {
+      const category = document.getElementById('chem-category').value;
+      const fromUnit = document.getElementById('from-chem').value;
+      const toUnit = document.getElementById('to-chem').value;
+      const value = parseFloat(document.getElementById('chem-value').value);
+      const resultDiv = document.getElementById('result');
+
+      if (!category || !fromUnit || !toUnit || isNaN(value)) {
+        resultDiv.innerHTML = 'Please fill all fields correctly.';
+        return;
+      }
+
+      const factorFrom = chemUnits[category][fromUnit];
+      const factorTo = chemUnits[category][toUnit];
+
+      if (category === 'concentration' && (fromUnit === 'mol/L' || toUnit === 'mol/L')) {
+        resultDiv.innerHTML = 'Conversion between mol/L and mass units requires molar mass.';
+        return;
+      }
+
+      const converted = value * (factorFrom / factorTo);
+      resultDiv.innerHTML = `<strong>${value} ${fromUnit} = ${converted.toFixed(6)} ${toUnit}</strong>`;
+    }
+  </script>
+
+</body>
+</html>

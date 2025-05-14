@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>w/v% Concentration Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>w/v% Concentration Calculator</h2>
+
+  <label>Compound Name:</label>
+  <input type="text" id="compound" placeholder="e.g. Glucose" />
+
+  <label>Mass of Solute (g):</label>
+  <input type="number" id="mass" placeholder="e.g. 2.5" />
+
+  <label>Volume of Solution (mL):</label>
+  <input type="number" id="volume" placeholder="e.g. 100" />
+
+  <button onclick="calculateWV()">Calculate w/v%</button>
+
+  <div id="result"></div>
+  <div id="steps"></div>
+</div>
+  <script>
+    function calculateWV() {
+      const compound = document.getElementById('compound').value.trim();
+      const mass = parseFloat(document.getElementById('mass').value);
+      const volume = parseFloat(document.getElementById('volume').value);
+
+      if (!compound || isNaN(mass) || isNaN(volume) || mass <= 0 || volume <= 0) {
+        document.getElementById('result').innerHTML = "Please enter valid inputs.";
+        document.getElementById('steps').innerHTML = "";
+        return;
+      }
+
+      const concentration = (mass / volume) * 100;
+
+      document.getElementById('result').innerHTML =
+        `<b>${compound} solution concentration = ${concentration.toFixed(2)}% w/v</b>`;
+
+      document.getElementById('steps').innerHTML = `
+        <b>Step-by-step:</b><br>
+        1. Use formula: w/v% = (mass / volume) × 100<br>
+        2. w/v% = (${mass} g / ${volume} mL) × 100<br>
+        3. w/v% = ${concentration.toFixed(2)}%<br><br>
+        <i>This is the final concentration of ${compound} in solution.</i>
+      `;
+    }
+  </script>
+
+</body>
+</html>

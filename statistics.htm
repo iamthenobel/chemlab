@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statistical Calculator</title>
+  <link href="https://unpkg.com/feather-icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .result {
+      margin-top: 30px;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  ChemTools: Statistical Calculator
+</header>
+
+<div class="container">
+  <h2>Enter Data</h2>
+  <label for="dataInput">Input numerical values separated by commas:</label>
+  <input type="text" id="dataInput" placeholder="e.g., 2, 5.8, 19, 6.4, 10" />
+
+  <h2>LOD/LOQ Parameters (Optional)</h2>
+  <label for="slopeInput">Slope of calibration curve (S):</label>
+  <input type="text" id="slopeInput" placeholder="e.g., 0.85" />
+
+  <button onclick="calculateStatistics()">Calculate</button>
+
+  <div class="result" id="results"></div>
+</div>
+
+<script>
+  function calculateStatistics() {
+    const dataInput = document.getElementById('dataInput').value;
+    const slopeInput = document.getElementById('slopeInput').value;
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+
+    if (!dataInput) {
+      resultsDiv.innerHTML = '<p>Please enter numerical data.</p>';
+      return;
+    }
+
+    const data = dataInput.split(',').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+    if (data.length === 0) {
+      resultsDiv.innerHTML = '<p>Please enter valid numerical data.</p>';
+      return;
+    }
+
+    // Mean
+    const mean = data.reduce((a, b) => a + b, 0) / data.length;
+
+    // Median
+    const sortedData = [...data].sort((a, b) => a - b);
+    const mid = Math.floor(sortedData.length / 2);
+    const median = sortedData.length % 2 !== 0 ? sortedData[mid] : (sortedData[mid - 1] + sortedData[mid]) / 2;
+
+    // Mode
+    const frequency = {};
+    data.forEach(num => {
+      frequency[num] = (frequency[num] || 0) + 1;
+    });
+    const maxFreq = Math.max(...Object.values(frequency));
+    const modes = Object.keys(frequency).filter(key => frequency[key] === maxFreq).map(Number);
+    const mode = modes.length === data.length ? 'No mode' : modes.join(', ');
+
+    // Variance
+    const variance = data.reduce((sum, num) => sum + Math.pow(num - mean, 2), 0) / data.length;
+
+    // Standard Deviation
+    const stdDev = Math.sqrt(variance);
+
+    // LOD and LOQ
+    let lod = 'N/A';
+    let loq = 'N/A';
+    if (slopeInput) {
+      const slope = parseFloat(slopeInput);
+      if (!isNaN(slope) && slope !== 0) {
+        lod = (3.3 * stdDev / slope).toFixed(4);
+        loq = (10 * stdDev / slope).toFixed(4);
+      }
+    }
+
+    // Display Results
+    resultsDiv.innerHTML = `
+      <div class="result-item"><span>Mean:</span> ${mean.toFixed(4)}</div>
+      <div class="result-item"><span>Median:</span> ${median}</div>
+      <div class="result-item"><span>Mode:</span> ${mode}</div>
+      <div class="result-item"><span>Variance:</span> ${variance.toFixed(4)}</div>
+      <div class="result-item"><span>Standard Deviation:</span> ${stdDev.toFixed(4)}</div>
+      <div class="result-item"><span>LOD (Limit of Detection):</span> ${lod}</div>
+      <div class="result-item"><span>LOQ (Limit of Quantification):</span> ${loq}</div>
+    `;
+  }
+</script>
+
+</body>
+</html>

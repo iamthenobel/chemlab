@@ -1,0 +1,238 @@
+{
+  "molarity": {
+    "definition": "Molarity is the number of moles of solute per liter of solution (mol/L).",
+    "keywords": ["mol/L", "concentration", "solution", "moles"]
+  },
+  "ppm": {
+    "definition": "Parts per million (ppm) is a way of expressing very dilute concentrations of substances.",
+    "keywords": ["dilution", "mg/L", "concentration"]
+  },
+  "ph": {
+    "definition": "pH is a scale used to specify the acidity or basicity of an aqueous solution.",
+    "keywords": ["acidity", "basicity", "hydrogen ion"]
+  },
+  "boyles law": {
+    "definition": "Boyle's Law states that the pressure of a gas is inversely proportional to its volume at constant temperature.",
+    "keywords": ["pressure", "volume", "inverse", "gas"]
+  },
+  "charles law": {
+    "definition": "Charles's Law states that the volume of a gas is directly proportional to its temperature at constant pressure.",
+    "keywords": ["volume", "temperature", "direct", "gas"]
+  },
+  "avogadros law": {
+    "definition": "Avogadro's Law states that equal volumes of gases at the same temperature and pressure contain an equal number of molecules.",
+    "keywords": ["volume", "molecules", "temperature", "pressure"]
+  },
+  "ideal gas law": {
+    "definition": "The Ideal Gas Law combines Boyle’s, Charles’s, and Avogadro’s laws into PV = nRT.",
+    "keywords": ["PV=nRT", "gas", "pressure", "volume", "temperature", "moles", "constant"]
+  },
+  "law of conservation of mass": {
+    "definition": "The Law of Conservation of Mass states that mass is neither created nor destroyed in a chemical reaction.",
+    "keywords": ["mass", "conservation", "reaction", "chemical"]
+  },
+  "law of definite proportions": {
+    "definition": "The Law of Definite Proportions states that a given compound always contains the same elements in the exact same proportions by mass.",
+    "keywords": ["compound", "proportion", "mass", "elements"]
+  },
+  "law of multiple proportions": {
+    "definition": "The Law of Multiple Proportions states that when two elements form more than one compound, the ratios of the masses of the second element combine with a fixed mass of the first in simple whole numbers.",
+    "keywords": ["ratios", "mass", "compounds", "elements"]
+  },
+  "daltons atomic theory": {
+    "definition": "Dalton's Atomic Theory states that all matter is made of atoms, atoms of the same element are identical, and atoms combine in simple whole-number ratios to form compounds.",
+    "keywords": ["atoms", "elements", "compounds", "ratios"]
+  },
+  "gay lussacs law": {
+    "definition": "Gay-Lussac's Law states that the pressure of a gas is directly proportional to its absolute temperature at constant volume.",
+    "keywords": ["pressure", "temperature", "gas", "direct"]
+  },
+  "grahams law": {
+    "definition": "Graham's Law states that the rate of effusion of a gas is inversely proportional to the square root of its molar mass.",
+    "keywords": ["effusion", "rate", "molar mass", "inverse", "gas"]
+  },
+  "henrys law": {
+    "definition": "Henry's Law states that the solubility of a gas in a liquid is directly proportional to the partial pressure of that gas above the liquid.",
+    "keywords": ["solubility", "pressure", "gas", "liquid"]
+  },
+  "raoults law": {
+    "definition": "Raoult's Law states that the partial vapor pressure of each component in a solution is proportional to its mole fraction.",
+    "keywords": ["vapor pressure", "solution", "mole fraction", "partial pressure"]
+  },
+  "hesss law": {
+    "definition": "Hess's Law states that the total enthalpy change of a reaction is the same, regardless of the number of steps taken.",
+    "keywords": ["enthalpy", "reaction", "heat", "thermochemistry"]
+  },
+  "first law thermodynamics": {
+    "definition": "The First Law of Thermodynamics states that energy cannot be created or destroyed, only transformed.",
+    "keywords": ["energy", "conservation", "internal energy", "heat", "work"]
+  },
+  "second law thermodynamics": {
+    "definition": "The Second Law of Thermodynamics states that the entropy of an isolated system always increases over time.",
+    "keywords": ["entropy", "disorder", "thermodynamics", "irreversibility"]
+  },
+  "le chateliers principle": {
+    "definition": "Le Chatelier's Principle states that if a dynamic equilibrium is disturbed, the system will shift to counteract the disturbance.",
+    "keywords": ["equilibrium", "shift", "reaction", "stress"]
+  },
+  "law of mass action": {
+    "definition": "The law of mass action states that the rate of a chemical reaction is proportional to the concentration of the reactants raised to their respective powers.",
+    "keywords": ["rate", "reaction", "concentration", "chemical"]
+  },
+  "reaction rate law": {
+    "definition": "The reaction rate law expresses the rate of a chemical reaction as a function of the concentrations of reactants, each raised to a power called the reaction order.",
+    "keywords": ["rate", "reaction", "order", "concentration"]
+  },
+  "arrhenius equation": {
+    "definition": "The Arrhenius equation describes the dependence of reaction rate on temperature, with an exponential relationship between the rate constant and temperature.",
+    "keywords": ["rate constant", "temperature", "activation energy", "reaction"]
+  },
+  "first law of thermodynamics": {
+    "definition": "The first law of thermodynamics, also known as the law of energy conservation, states that energy cannot be created or destroyed, only transformed from one form to another.",
+    "keywords": ["energy", "conservation", "work", "heat"]
+  },
+  "second law of thermodynamics": {
+    "definition": "The second law of thermodynamics states that the entropy of an isolated system always increases over time, and processes are irreversible.",
+    "keywords": ["entropy", "disorder", "irreversibility", "thermodynamics"]
+  },
+  "third law of thermodynamics": {
+    "definition": "The third law of thermodynamics states that as the temperature of a system approaches absolute zero, the entropy of the system approaches a minimum value.",
+    "keywords": ["entropy", "temperature", "absolute zero", "thermodynamics"]
+  },
+  "nernst equation": {
+    "definition": "The Nernst equation relates the reduction potential of a half-cell in an electrochemical cell to the concentrations of the species involved and the temperature.",
+    "keywords": ["reduction potential", "electrochemical", "concentration", "temperature"]
+  },
+  "fick's laws of diffusion": {
+    "definition": "Fick's laws of diffusion describe the rate of diffusion of a substance across a membrane and the factors influencing it, including concentration gradient and membrane permeability.",
+    "keywords": ["diffusion", "concentration gradient", "membrane", "rate"]
+  },
+  "le chatelier's principle": {
+    "definition": "Le Chatelier's principle states that when a system in equilibrium is disturbed by changing the conditions (such as concentration, temperature, or pressure), the system will adjust to counteract the change.",
+    "keywords": ["equilibrium", "shift", "reaction", "disturbance"]
+  },
+  "dalton's law of partial pressures": {
+    "definition": "Dalton's law of partial pressures states that the total pressure exerted by a mixture of gases is the sum of the partial pressures of each individual gas.",
+    "keywords": ["pressure", "gas", "mixture", "partial pressure"]
+  },
+  "avogadro's law": {
+    "definition": "Avogadro's law states that equal volumes of gases, at the same temperature and pressure, contain the same number of molecules.",
+    "keywords": ["volume", "molecules", "gas", "temperature", "pressure"]
+  },
+  "beer lambert law": {
+    "definition": "Beer-Lambert Law states that the absorbance of light by a solution is directly proportional to the concentration of the absorbing species and the path length of the sample.",
+    "keywords": ["absorbance", "concentration", "path length", "light"]
+  },
+  "colloidal law": {
+    "definition": "Colloidal laws describe the behavior and properties of colloidal particles, including Tyndall effect, Brownian motion, and coagulation.",
+    "keywords": ["colloid", "particles", "tyndall effect", "brownian motion"]
+  },
+  "law of chemical equilibrium": {
+    "definition": "The law of chemical equilibrium states that at equilibrium, the ratio of the product of concentrations of products to reactants is constant, represented by the equilibrium constant.",
+    "keywords": ["equilibrium constant", "concentration", "products", "reactants"]
+  },
+  "law of radioactive decay": {
+    "definition": "The law of radioactive decay states that the rate of decay of a radioactive substance is proportional to the number of undecayed nuclei present.",
+    "keywords": ["radioactivity", "decay", "half life", "exponential"]
+  },
+  "faraday's laws of electrolysis": {
+    "definition": "Faraday's laws state that the amount of substance liberated during electrolysis is proportional to the quantity of electricity passed and the equivalent weight of the substance.",
+    "keywords": ["electrolysis", "charge", "mass", "equivalent weight"]
+  },
+  "law of constant heat summation": {
+    "definition": "Hess's Law or the law of constant heat summation states that the total enthalpy change for a reaction is the same, no matter how many steps it takes.",
+    "keywords": ["enthalpy", "reaction", "heat", "thermodynamics"]
+  },
+  "law of conservation of energy": {
+    "definition": "The law of conservation of energy states that energy cannot be created or destroyed in an isolated system.",
+    "keywords": ["energy", "conservation", "isolated system", "thermodynamics"]
+  },
+  "law of conservation of charge": {
+    "definition": "The law of conservation of charge states that the total electric charge in a closed system remains constant over time.",
+    "keywords": ["charge", "conservation", "closed system", "electric"]
+  },
+  "law of combining volumes": {
+    "definition": "Gay-Lussac's law of combining volumes states that gases react together in simple ratios by volume, provided all gases are measured at the same temperature and pressure.",
+    "keywords": ["volume", "gases", "ratio", "reaction"]
+  },
+  "markovnikov's rule": {
+    "definition": "Markovnikov's Rule states that during the addition of HX to an alkene, the hydrogen attaches to the carbon with more hydrogen atoms already attached, and the halide goes to the more substituted carbon.",
+    "keywords": ["alkene", "electrophilic addition", "regioselectivity", "HX"]
+  },
+  "anti markovnikov rule": {
+    "definition": "The Anti-Markovnikov Rule states that under certain conditions (like in the presence of peroxides), HX adds to an alkene so that the halide attaches to the less substituted carbon.",
+    "keywords": ["alkene", "peroxides", "regioselectivity", "free radical"]
+  },
+  "zaitsev's rule": {
+    "definition": "Zaitsev's Rule states that in elimination reactions, the more substituted alkene is the major product.",
+    "keywords": ["elimination", "alkene", "substitution", "major product"]
+  },
+  "huckel's rule": {
+    "definition": "Hückel's Rule states that a compound is aromatic if it is cyclic, planar, fully conjugated, and has 4n+2 π electrons.",
+    "keywords": ["aromatic", "pi electrons", "cyclic", "planar"]
+  },
+  "resonance theory": {
+    "definition": "Resonance theory describes the delocalization of electrons in molecules that have multiple valid Lewis structures, which contributes to stability.",
+    "keywords": ["delocalization", "stability", "lewis structures", "electrons"]
+  },
+  "inductive effect": {
+    "definition": "The inductive effect is the electron-withdrawing or -donating effect transmitted through sigma bonds due to electronegativity differences.",
+    "keywords": ["sigma bond", "electronegativity", "electron density", "polarization"]
+  },
+  "mesomeric effect": {
+    "definition": "The mesomeric effect is the electron-donating or withdrawing effect through π bonds due to conjugation with adjacent groups.",
+    "keywords": ["conjugation", "pi bond", "resonance", "electron flow"]
+  },
+  "hyperconjugation": {
+    "definition": "Hyperconjugation is the stabilization of a molecule by the interaction of electrons in sigma bonds with adjacent empty or partially filled p-orbitals.",
+    "keywords": ["stability", "sigma bond", "p orbital", "delocalization"]
+  },
+  "walden inversion": {
+    "definition": "Walden Inversion is the inversion of configuration at a chiral center during a nucleophilic substitution reaction (SN2 mechanism).",
+    "keywords": ["chirality", "SN2", "stereochemistry", "inversion"]
+  },
+  "steric effect": {
+    "definition": "Steric effects arise from the physical presence of atoms within a molecule, influencing reactivity and stability due to spatial constraints.",
+    "keywords": ["repulsion", "spatial", "reactivity", "conformation"]
+  },
+  "heisenberg uncertainty principle": {
+    "definition": "The Heisenberg Uncertainty Principle states that it is impossible to simultaneously know both the exact position and exact momentum of a particle.",
+    "keywords": ["quantum", "uncertainty", "position", "momentum"]
+  },
+  "pauli exclusion principle": {
+    "definition": "The Pauli Exclusion Principle states that no two electrons in an atom can have the same set of four quantum numbers.",
+    "keywords": ["electrons", "quantum numbers", "orbitals", "exclusion"]
+  },
+  "aufbau principle": {
+    "definition": "The Aufbau Principle states that electrons fill atomic orbitals in order of increasing energy levels.",
+    "keywords": ["electrons", "orbitals", "energy levels", "configuration"]
+  },
+  "hund's rule": {
+    "definition": "Hund's Rule states that electrons occupy degenerate orbitals singly first, with parallel spins, before pairing occurs.",
+    "keywords": ["degenerate orbitals", "spin", "electrons", "filling order"]
+  },
+  "bohr's postulates": {
+    "definition": "Bohr's postulates describe quantized orbits for electrons in atoms, where angular momentum is quantized and electrons emit radiation only when transitioning between orbits.",
+    "keywords": ["quantum", "orbit", "energy levels", "radiation"]
+  },
+  "de broglie hypothesis": {
+    "definition": "De Broglie Hypothesis states that particles such as electrons exhibit wave-like properties, with wavelength inversely proportional to momentum.",
+    "keywords": ["wave particle duality", "wavelength", "momentum", "quantum"]
+  },
+  "schrodinger equation": {
+    "definition": "The Schrödinger Equation is a fundamental equation in quantum mechanics describing how the quantum state of a system evolves over time.",
+    "keywords": ["wavefunction", "quantum state", "energy", "operator"]
+  },
+  "gibbs free energy": {
+    "definition": "Gibbs Free Energy is a thermodynamic potential used to predict the spontaneity of a process at constant temperature and pressure.",
+    "keywords": ["spontaneity", "enthalpy", "entropy", "thermodynamics"]
+  },
+  "van der waals equation": {
+    "definition": "The Van der Waals Equation corrects the Ideal Gas Law for intermolecular forces and molecular volumes.",
+    "keywords": ["real gas", "pressure", "volume", "intermolecular forces"]
+  },
+  "raoult's law": {
+    "definition": "Raoult's Law states that the partial vapor pressure of a component in a solution is proportional to its mole fraction and vapor pressure in the pure state.",
+    "keywords": ["vapor pressure", "solution", "mole fraction", "volatility"]
+  }
+}
