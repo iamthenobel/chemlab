@@ -2,94 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>ChemTools Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChemTools Dashboard</title>
   <link href="https://unpkg.com/feather-icons" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --primary: #2d5be3;
+      --background: #f5f7fa;
+      --foreground: #333;
+      --card-bg: #fff;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --shadow-hover: rgba(0, 0, 0, 0.1);
+      --footer-bg: #e9ecf2;
+      --link: #2d5be3;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
+      background-color: var(--background);
+      color: var(--foreground);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
 
     header {
-      background-color: #2d5be3;
+      background-color: var(--primary);
       color: white;
-      padding: 16px 20px;
-      font-size: 20px;
-      font-weight: 600;
+      padding: 1rem 1.25rem;
       text-align: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 20px;
-      padding: 30px 20px;
+      gap: 1.25rem;
+      padding: 2rem 1.25rem;
     }
 
     .app-icon {
-      background-color: white;
+      background-color: var(--card-bg);
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px var(--shadow);
+      padding: 1.25rem 0.625rem;
       text-align: center;
-      padding: 20px 10px;
-      transition: all 0.2s ease;
       text-decoration: none;
-      color: #2d2d2d;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .app-icon:hover {
       transform: translateY(-4px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 12px var(--shadow-hover);
     }
 
     .app-icon i {
-      color: #2d5be3;
-      margin-bottom: 8px;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
     }
 
     .app-label {
-      font-size: 14px;
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
       font-weight: 500;
-      margin-top: 5px;
+      word-wrap: break-word;
     }
 
     .section {
-      padding: 30px 20px;
       max-width: 900px;
       margin: 0 auto;
+      padding: 2rem 1.25rem;
     }
 
     .section h2 {
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #2d5be3;
+      font-size: 1.375rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
     }
 
     .section p {
-      font-size: 15px;
+      font-size: 1rem;
       line-height: 1.6;
       color: #444;
     }
 
     footer {
-      margin-top: auto;
-      background-color: #e9ecf2;
-      padding: 20px;
-      font-size: 14px;
+      background-color: var(--footer-bg);
       text-align: center;
+      font-size: 0.875rem;
       color: #555;
+      padding: 1.25rem;
+      margin-top: auto;
     }
 
     footer a {
-      color: #2d5be3;
+      color: var(--link);
       text-decoration: none;
-      margin: 0 8px;
+      margin: 0 0.5rem;
     }
 
     footer a:hover {
@@ -98,95 +116,100 @@
 
     @media (max-width: 500px) {
       .app-label {
-        font-size: 13px;
+        font-size: 0.8rem;
       }
 
       .section h2 {
-        font-size: 18px;
+        font-size: 1.125rem;
+      }
+
+      header {
+        font-size: 1.1rem;
       }
     }
   </style>
 </head>
 <body>
 
-<header>
-  ChemTools Dashboard
-</header>
+  <header>
+    ChemTools Dashboard
+  </header>
 
-<div class="grid">
-  <a href="ppm.html" class="app-icon">
-    <i data-feather="droplet" width="28" height="28"></i>
-    <div class="app-label">PPM</div>
-  </a>
-  <a href="wv(c).html" class="app-icon">
-    <i data-feather="percent" width="28" height="28"></i>
-    <div class="app-label">W/V</div>
-  </a>
-  <a href="MNc.html" class="app-icon">
-    <i data-feather="layers" width="28" height="28"></i>
-    <div class="app-label">Molarity</div>
-  </a>
-  <a href="gL.html" class="app-icon">
-    <i data-feather="activity" width="28" height="28"></i>
-    <div class="app-label">g/L</div>
-  </a>
-  <a href="dilution.htm" class="app-icon">
-    <i data-feather="shuffle" width="28" height="28"></i>
-    <div class="app-label">Dilution</div>
-  </a>
-  <a href="chmConverter.html" class="app-icon">
-    <i data-feather="repeat" width="28" height="28"></i>
-    <div class="app-label">Converter (Ana)</div>
-  </a>
-  <a href="calibrate.html" class="app-icon">
-    <i data-feather="bar-chart-2" width="28" height="28"></i>
-    <div class="app-label">Graph</div>
-  </a>
-  <a href="statistics.htm" class="app-icon">
-    <i data-feather="alert-circle" width="28" height="28"></i>
-    <div class="app-label">Statistics</div>
-  </a>
-  <a href="dictionary.htm" class="app-icon">
-    <i data-feather="book-open" width="28" height="28"></i>
-    <div class="app-label">Laws</div>
-  </a>
-  <a href="MMCalc.html" class="app-icon">
-    <i data-feather="anchor" width="28" height="28"></i>
-    <div class="app-label">Molar Mass</div>
-  </a>
-  <a href="converter.html" class="app-icon">
-    <i data-feather="minimize-2" width="28" height="28"></i>
-    <div class="app-label">Converter</div>
-  </a>
-</div>
+  <main class="grid">
+    <a href="ppm.html" class="app-icon">
+      <i data-feather="droplet" width="28" height="28"></i>
+      <div class="app-label">PPM</div>
+    </a>
+    <a href="wv(c).html" class="app-icon">
+      <i data-feather="percent" width="28" height="28"></i>
+      <div class="app-label">W/V</div>
+    </a>
+    <a href="MNc.html" class="app-icon">
+      <i data-feather="layers" width="28" height="28"></i>
+      <div class="app-label">Molarity</div>
+    </a>
+    <a href="gL.html" class="app-icon">
+      <i data-feather="activity" width="28" height="28"></i>
+      <div class="app-label">g/L</div>
+    </a>
+    <a href="dilution.htm" class="app-icon">
+      <i data-feather="shuffle" width="28" height="28"></i>
+      <div class="app-label">Dilution</div>
+    </a>
+    <a href="chmConverter.html" class="app-icon">
+      <i data-feather="repeat" width="28" height="28"></i>
+      <div class="app-label">Converter (Ana)</div>
+    </a>
+    <a href="calibrate.html" class="app-icon">
+      <i data-feather="bar-chart-2" width="28" height="28"></i>
+      <div class="app-label">Graph</div>
+    </a>
+    <a href="statistics.htm" class="app-icon">
+      <i data-feather="alert-circle" width="28" height="28"></i>
+      <div class="app-label">Statistics</div>
+    </a>
+    <a href="dictionary.htm" class="app-icon">
+      <i data-feather="book-open" width="28" height="28"></i>
+      <div class="app-label">Laws</div>
+    </a>
+    <a href="MMCalc.html" class="app-icon">
+      <i data-feather="anchor" width="28" height="28"></i>
+      <div class="app-label">Molar Mass</div>
+    </a>
+    <a href="converter.html" class="app-icon">
+      <i data-feather="minimize-2" width="28" height="28"></i>
+      <div class="app-label">Converter</div>
+    </a>
+    <a href="ccal.html" class="app-icon">
+      <i data-feather="hard-drive" width="28" height="28"></i>
+      <div class="app-label">Solution Prep</div>
+    </a>
+  </main>
 
-<div class="section">
-  <h2>About ChemTools</h2>
-  <p>
-    ChemTools is a suite of lightweight tools designed to assist students, researchers, and professionals in chemistry-related calculations. From ppm to dilution and calibration graphs, everything is optimized for speed, accuracy, and accessibility.
-  </p>
-</div>
+  <section class="section">
+    <h2>About ChemTools</h2>
+    <p>
+      ChemTools is a lightweight suite of tools for chemistry students, researchers, and professionals. Whether you're calculating ppm, preparing dilutions, or visualizing calibration curves, ChemTools keeps your workflow clean and efficient.
+    </p>
+  </section>
 
-<div class="section">
-  <h2>Other Tools</h2>
-  <p>
-    Upcoming features include unit conversion extensions, titration analyzers, reaction balancers, and more. ChemTools is modular and open for feedback-driven expansion.
-  </p>
-</div>
+  <section class="section">
+    <h2>What’s Next</h2>
+    <p>
+      Coming soon: titration solvers, reaction balancers, advanced unit conversion tools, and more. Your feedback fuels our development, so don’t be shy—let us know what you'd love to see.
+    </p>
+  </section>
 
-<footer>
-  &copy; 2025 ChemTools — 
-  <a href="#">Privacy</a>
-  |
-  <a href="#">Terms</a>
-  |
-  <a href="#">Contact</a>
-</footer>
+  <footer>
+    &copy; 2025 ChemTools —
+    <a href="#">Privacy</a> |
+    <a href="#">Terms</a> |
+    <a href="#">Contact</a>
+  </footer>
 
-<script src="https://unpkg.com/feather-icons"></script>
-<script>
-  feather.replace();
-</script>
-
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script>
+    feather.replace();
+  </script>
 </body>
 </html>
