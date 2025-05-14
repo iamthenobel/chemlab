@@ -3,21 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Calibration Curve Drawer</title>
+  <title>Calibration Curve Drawer | ChemTools</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://unpkg.com/feather-icons" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #007bff;
+      --accent: #ff5733;
+      --bg: #f8f9fb;
+      --white: #ffffff;
+      --gray: #6c757d;
+      --border: #dee2e6;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: #212529;
+    }
+
+    header {
+      background: var(--primary);
+      color:white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 24px 80px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input[type="text"], input[type="number"], textarea {
+      width: 100%;
+      padding: 12px 14px;
+      margin: 8px 0 16px;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    label {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .file-upload-box {
+      margin: 12px 0 24px;
+    }
+
+    .custom-file-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e9ecef;
+      padding: 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      border: 1px dashed var(--border);
+      transition: background 0.2s ease;
+    }
+
+    .custom-file-label:hover {
+      background: #dde1e4;
+    }
+
+    .custom-file-input {
+      display: none;
+    }
+
+    .upload-icon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 8px 8px 16px 0;
+      font-size: 15px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin: 10px 0 24px;
+      font-family: monospace;
+      background: #f1f3f5;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+    }
+
+    canvas {
+      margin-top: 30px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+  </style>
 </head>
 <body>
-<div class="container">
+
+  <header>
+    <h1><i data-feather="bar-chart-2"></i>Calibration Curve</h1>
+    <i data-feather="activity"></i>
+  </header>
+
+  <div class="container">
     <h2>Calibration Curve Drawer</h2>
-  
+
     <input type="text" id="graphTitle" placeholder="Graph Title" />
     <input type="text" id="xLabel" placeholder="X-axis Label (e.g., Concentration)" />
     <input type="text" id="yLabel" placeholder="Y-axis Label (e.g., Absorbance)" />
-  
-    <label>Enter Data (x,y per line):</label>
+
+    <label for="dataInput">Enter Data (x,y per line):</label>
     <textarea id="dataInput" rows="5" placeholder="e.g., 0.5,0.12&#10;1.0,0.24"></textarea>
-  
+
     <div class="file-upload-box">
       <label for="csvFile" class="custom-file-label">
         <span class="upload-icon">📄</span>
@@ -25,19 +170,19 @@
       </label>
       <input type="file" id="csvFile" accept=".csv" class="custom-file-input" />
     </div>
-  
+
     <button onclick="plotGraph()">Plot Graph</button>
     <button onclick="downloadGraph()">Download Graph</button>
-  
+
     <div class="result" id="equationOutput"></div>
-  
-    <label>Predict X from Y:</label>
+
+    <label for="unknownY">Predict X from Y:</label>
     <input type="number" step="any" id="unknownY" placeholder="Enter absorbance" />
     <button onclick="predictX()">Calculate</button>
     <div class="result" id="predictionOutput"></div>
-  
+
     <canvas id="calibrationChart" height="400"></canvas>
-</div>
+  </div>
 
   <script>
     let chart, slope, intercept;
@@ -85,19 +230,19 @@
       const title = document.getElementById('graphTitle').value;
       const xLabel = document.getElementById('xLabel').value;
       const yLabel = document.getElementById('yLabel').value;
-    
+
       const data = parseData(raw);
       if (!data.length) return;
-    
+
       const { slope: m, intercept: c, r2 } = linearRegression(data);
       const regressionLine = data.map(pt => ({
         x: pt.x,
         y: m * pt.x + c
       }));
-    
+
       const ctx = document.getElementById('calibrationChart').getContext('2d');
       if (chart) chart.destroy();
-    
+
       chart = new Chart(ctx, {
         type: 'scatter',
         data: {
@@ -144,22 +289,22 @@
           }
         }
       });
-    
+
       document.getElementById('equationOutput').innerText =
         `Linear Equation: y = mx + c\n` +
         `Slope (m): ${m.toFixed(4)}\n` +
         `Intercept (c): ${c.toFixed(4)}\n` +
         `R²: ${r2.toFixed(4)}`;
-    
+
       document.getElementById('unknownY').placeholder = `Enter ${yLabel}`;
     }
-    
+
     function predictX() {
       const y = parseFloat(document.getElementById('unknownY').value);
       const xLabel = document.getElementById('xLabel').value || 'X';
       const yLabel = document.getElementById('yLabel').value || 'Y';
       if (!slope || isNaN(y)) return;
-    
+
       const x = (y - intercept) / slope;
       document.getElementById('predictionOutput').innerText =
         `Estimated ${xLabel} from ${yLabel} = ${x.toFixed(4)}`;
@@ -176,7 +321,7 @@
       });
     }
 
-    
+    feather.replace(); // Load feather icons
   </script>
 </body>
 </html>
