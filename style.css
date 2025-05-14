@@ -1,3 +1,4 @@
+/* ===== Reset and Global ===== */
 * {
   margin: 0;
   padding: 0;
@@ -6,116 +7,112 @@
 
 body {
   font-family: Arial, sans-serif;
-  padding: 0px;
+  background-color: #f9f9fb;
+  color: #333;
 }
+
+/* ===== Header ===== */
 header {
   background-color: #2d5be3;
-  color: white;
+  color: #fff;
   padding: 16px 20px;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 600;
   text-align: center;
 }
+
+/* ===== Headings ===== */
 h2 {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #E6E6E6;
-  padding: 10px 0px;
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #2d5be3;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 20px;
+  padding: 10px 0;
 }
 
-input,
-button,
-textarea {
-  margin: 6px 0;
-  padding: 8px;
-  max-width: 400px;
-}
-
-textarea {
-  display: block
-}
-
-input,
-select {
-  width: 100%;
-  padding: 10px;
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-label,
-select,
-input,
-button {
-  margin: 5px 0;
-  font-size: 0.9rem;
-}
-
+/* ===== Typography & Forms ===== */
 label {
+  display: block;
   font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+  font-size: 0.95rem;
+  margin: 10px 0 5px;
 }
 
-select {
-  display: block;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px 12px;
-  font-size: 16px;
-  color: #333;
-  width: 100%;
-  max-width: 300px;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath fill='%23333' d='M6 6L0 0h12z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px 6px;
-  cursor: pointer;
-}
-
+input,
+select,
+textarea,
 button {
-  background: #4a5cff;
-  color: #fff;
-  padding: 12px;
-  width: 100%;
-  border: none;
-  font-size: 16px;
+  font-size: 0.95rem;
+  padding: 10px;
   border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #2d3ae6;
-}
-
-canvas {
-  margin-top: 20px;
   max-width: 100%;
 }
 
+input,
+select {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 80px;
+}
+
+button {
+  background-color: #4a5cff;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #2d3ae6;
+}
+
+/* ===== Select Styling ===== */
+select {
+  appearance: none;
+  background: #fff url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6' viewBox='0 0 12 6'%3E%3Cpath fill='%23333' d='M6 6L0 0h12z'/%3E%3C/svg%3E") no-repeat right 12px center;
+  background-size: 12px 6px;
+  cursor: pointer;
+  max-width: 300px;
+}
+
+/* ===== Sections & Containers ===== */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Result Boxes ===== */
 .result,
 #result {
   margin-top: 20px;
-  padding: 10px;
-  background: #e0e0ff;
+  padding: 12px 16px;
+  background-color: #e0e0ff;
   border-left: 5px solid #2196f3;
   border-radius: 6px;
 }
 
 #steps {
   margin-top: 20px;
-  background: #f0f9f0;
   padding: 15px;
+  background-color: #f0f9f0;
   border-left: 4px solid #4CAF50;
-  border-radius: 6px
+  border-radius: 6px;
 }
 
+/* ===== Toggle Options ===== */
 #elementToggles {
   margin: 10px 0;
 }
@@ -124,15 +121,7 @@ canvas {
   margin-right: 15px;
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  background: #fff;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
+/* ===== Upload Box ===== */
 .file-upload-box {
   position: relative;
   max-width: 340px;
@@ -141,15 +130,15 @@ canvas {
 
 .custom-file-label {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   background-color: #eef1fb;
   border: 2px dashed #4f52ff;
   border-radius: 10px;
   padding: 16px 20px;
+  text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-align: center;
 }
 
 .custom-file-label:hover {
@@ -158,12 +147,12 @@ canvas {
 }
 
 .upload-icon {
-  font-size: 24px;
+  font-size: 1.5rem;
   margin-right: 10px;
 }
 
 .upload-text {
-  font-size: 15px;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #333;
 }
@@ -172,18 +161,44 @@ canvas {
   display: none;
 }
 
+/* ===== Utility ===== */
 .hidden {
   display: none;
 }
-    .result-item {
-      margin-bottom: 15px;
-    }
-    .result-item span {
-      font-weight: 600;
-    }
-    @media (max-width: 600px) {
-      .container {
-        margin: 20px;
-        padding: 15px;
-      }
-    }
+
+.result-item {
+  margin-bottom: 15px;
+}
+
+.result-item span {
+  font-weight: 600;
+}
+
+/* ===== Canvas Styling ===== */
+canvas {
+  margin-top: 20px;
+  max-width: 100%;
+  display: block;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  button {
+    font-size: 0.95rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 0.9rem;
+  }
+
+  .upload-text {
+    font-size: 0.9rem;
+  }
+}
